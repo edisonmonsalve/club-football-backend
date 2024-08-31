@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS dbappfc;
-CREATE DATABASE IF NOT EXISTS dbappfc;
+CREATE DATABASE dbappfc;
 
 USE dbappfc;
 
@@ -106,7 +106,7 @@ CREATE TABLE news (
   );
 INSERT INTO news (title, content, author_id, category_id)
 VALUES
-("Testing", "Un nuevo comienzo...", 1, 7),
+("Testing", "Un nuevo comienzo...", (select id from users where role_id = (select id from roles where title = "admin")), 7),
 ("Debug", "", 1, default),
 ("DEBUT SOÑANO", "The great pass of the season with APPFC TEAM 🟩", 2, 3);
 

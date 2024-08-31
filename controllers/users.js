@@ -2,11 +2,16 @@ import { UserModel } from '../models/mysql/user.js'
 
 export class UserControllers {
   static async getAll (req, res) {
-    const data = await UserModel.getAll()
-    res.json(data)
+    try {
+      const users = await UserModel.getAll()
+      res.status(200).json(users)
+    } catch (error) {
+      res.status(500).json({ error: 'Database query failed' })
+    }
   }
 
   static async getById (req, res) {
+    console.log(req.params)
     res.json('getById')
   }
 
