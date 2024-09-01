@@ -1,0 +1,28 @@
+### Recuperar todos los usuarios
+GET http://localhost:3000/users
+
+### Recuperar un usuario por id
+GET http://localhost:3000/users/9
+
+### Crear un usuario
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "uso",
+  "email": "emmails",
+  "password": "password"
+}
+
+### Actualizar un usuario por id
+PATCH http://localhost:3000/users/8
+Content-Type: application/json
+
+{
+  "name": "UserpPro",
+  "email": "UserPro@appfc"
+}
+
+### Eliminar un usuario por id
+DELETE http://localhost:3000/users/13
+

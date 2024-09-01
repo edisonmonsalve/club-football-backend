@@ -11,19 +11,55 @@ export class UserControllers {
   }
 
   static async getById (req, res) {
-    console.log(req.params)
-    res.json('getById')
+    const { id } = req.params
+    try {
+      const [user] = await UserModel.getById({ id })
+      if (user) {
+        res.status(200).json(user)
+      } else {
+        res.status(404).json({ error: 'User not found' })
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error)
+      res.status(500).json({ error: 'Error fetching user' })
+    }
   }
 
   static async create (req, res) {
-    res.json('create')
-  }
-
-  static async delete (req, res) {
-    res.json('delete')
+    const { name, email, password } = req.body
+    try {
+      const userId = await UserModel.create({ name, email, password })
+      res.status(201).json({ message: 'User created', userId })
+    } catch (error) {
+      console.error('Error creating user:', error)
+      res.status(500).json({ error: 'Error creating user' })
+    }
   }
 
   static async update (req, res) {
-    res.json('update')
+    const { id } = req.params
+    const { role_id: roleId, name, email, password } = req.body
+    try {
+      await UserModel.update({ id, roleId, name, email, password })
+      res.status(200).json({ message: 'User updated' })
+    } catch (error) {
+      console.error('Error updating user:', error)
+      res.status(500).json({ error: 'Error updating user' })
+    }
+  }
+
+  static async delete (req, res) {
+    const { id } = req.params
+    try {
+      const eliminated = await UserModel.delete({ id })
+      if (eliminated) {
+        res.status(200).json({ message: 'User deleted' })
+      } else {
+        res.status(400).json({ error: 'User not exits' })
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error)
+      res.status(500).json({ error: 'Error deleting user' })
+    }
   }
 }

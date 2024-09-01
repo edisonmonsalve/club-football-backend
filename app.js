@@ -20,7 +20,19 @@ app.use((req, res) => {
   res.status(404).send(`<h1>Path: <mark>${req.url}</mark> Not Fount 404</h1>`)
 })
 
-// console.log(process.env)
 const PORT = process.env.PORT ?? 3000
 const HOST_NAME = process.env.PORT ?? 'localhost'
 app.listen(PORT, HOST_NAME, console.log('Server running! http://localhost:' + PORT))
+
+// // Manejar el cierre de la aplicación
+// process.on('SIGINT', () => {
+//   db.end()
+//     .then(() => {
+//       console.log('Pool de conexiones cerrado')
+//       process.exit(0)
+//     })
+//     .catch(err => {
+//       console.error('Error cerrando el pool de conexiones:', err)
+//       process.exit(1)
+//     })
+// })
