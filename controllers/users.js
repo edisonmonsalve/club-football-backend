@@ -1,7 +1,9 @@
+/* eslint-disable space-before-function-paren */
+/* eslint-disable camelcase */
 import { UserModel } from '../models/mysql/user.js'
 
 export class UserControllers {
-  static async getAll (req, res) {
+  static async getAll(req, res) {
     try {
       const users = await UserModel.getAll()
       res.status(200).json(users)
@@ -10,7 +12,7 @@ export class UserControllers {
     }
   }
 
-  static async getById (req, res) {
+  static async getById(req, res) {
     const { id } = req.params
     try {
       const [user] = await UserModel.getById({ id })
@@ -25,7 +27,7 @@ export class UserControllers {
     }
   }
 
-  static async create (req, res) {
+  static async create(req, res) {
     const { name, email, password } = req.body
     try {
       const userId = await UserModel.create({ name, email, password })
@@ -36,11 +38,11 @@ export class UserControllers {
     }
   }
 
-  static async update (req, res) {
+  static async update(req, res) {
     const { id } = req.params
-    const { role_id: roleId, name, email, password } = req.body
+    const { role_id, name, email, password } = req.body
     try {
-      await UserModel.update({ id, roleId, name, email, password })
+      await UserModel.update({ id, role_id, name, email, password })
       res.status(200).json({ message: 'User updated' })
     } catch (error) {
       console.error('Error updating user:', error)
@@ -48,7 +50,7 @@ export class UserControllers {
     }
   }
 
-  static async delete (req, res) {
+  static async delete(req, res) {
     const { id } = req.params
     try {
       const eliminated = await UserModel.delete({ id })

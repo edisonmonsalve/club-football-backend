@@ -21,7 +21,7 @@ export class UserModel {
   static async update({ id, ...input }) {
     const fields = Object.keys(input)
       .filter(key => input[key] !== undefined)
-      .map(key => `${key === 'roleId' ? 'role_id' : key} = ?`)
+      .map(key => `${key} = ?`)
       .join(', ')
     const values = Object.keys(input)
       .filter(key => input[key] !== undefined)

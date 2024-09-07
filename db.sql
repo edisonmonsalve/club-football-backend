@@ -91,6 +91,7 @@ VALUES
 ("Desarrollo Juvenil", "Información sobre la cantera del club, incluyendo el desempeño de los jóvenes talentos y su progresión."),
 ("Historial y Estadísticas", "Noticias sobre récords, estadísticas históricas y eventos importantes en la historia del club.");
 
+
 CREATE TABLE news (
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(150) NOT NULL,
@@ -109,6 +110,11 @@ VALUES
 ("Testing", "Un nuevo comienzo...", (select id from users where role_id = (select id from roles where title = "admin")), 7),
 ("Debug", "", 1, default),
 ("DEBUT SOÑANO", "The great pass of the season with APPFC TEAM 🟩", 2, 3);
+
+INSERT INTO news (title, content, author_id, category_id)
+VALUES
+("yes", "yes", 1, default);
+SELECT * FROM news;
 
 
 CREATE TABLE comments (
