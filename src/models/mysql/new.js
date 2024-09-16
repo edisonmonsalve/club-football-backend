@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable space-before-function-paren */
-import { db } from '../../config/db.js'
+import { db } from '../../config/dbConfig.js'
 
 export class NewModel {
   static async getAll() {

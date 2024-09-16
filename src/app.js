@@ -1,20 +1,25 @@
 import express, { json } from 'express'
-import 'dotenv/config'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import morgan from 'morgan'
+import 'dotenv/config'
+
 import { usersRouter } from './routes/users.js'
 import { newsRouter } from './routes/news.js'
 import { commentsRouter } from './routes/comments.js'
+import { authRouter } from './routes/auth.js'
 
 const app = express()
+app.use(cookieParser())
 app.use(cors())
 app.use(json()) // for parsing application/json for default
 app.use(morgan('dev'))
 app.disable('x-powered-by')
 
-app.use('/users', usersRouter)
-app.use('/news', newsRouter)
-app.use('/comments', commentsRouter)
+app.use('/auth', authRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/news', newsRouter)
+app.use('/api/comments', commentsRouter)
 
 app.use((req, res) => {
   res.status(404).send(`<h1>Path: <mark>${req.url}</mark> Not Fount 404</h1>`)

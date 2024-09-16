@@ -1,5 +1,5 @@
 /* eslint-disable space-before-function-paren */
-import { db } from '../../config/db.js'
+import { db } from '../../config/dbConfig.js'
 
 export class UserModel {
   static async getAll() {
@@ -12,9 +12,19 @@ export class UserModel {
     return user
   }
 
-  static async create({ name, email, password }) {
+  static async getByEmail({ email }) {
+    try {
+      const [user] = await db.query('SELECT * FROM users WHERE email = ?', [email])
+      console.log(user)
+      return user[0]
+    } catch (error) {
+      console.log('.......', error)
+    }
+  }
+
+  static async create({ name, email, passwordHash }) {
     const [result] = await db.query('INSERT INTO users (name, email, password) VALUES (?,?,?)',
-      [name, email, password])
+      [name, email, passwordHash])
     return result.insertId
   }
 
