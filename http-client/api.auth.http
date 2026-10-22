@@ -1,11 +1,15 @@
+### Verificar usuario logiado
+GET http://localhost:3000/auth/me
+
 ### Registrar un usuario
 POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "name": "uso",
-  "email": "emmails",
-  "password": "password"
+  "name": "hola",
+  "email": "h@g.lx",
+  "password": "password",
+  "title": "hola"
 }
 
 ### Iniciar sesion de usuario
@@ -13,7 +17,7 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-  "email": "emmails",
+  "email": "email@appfc.team",
   "password": "password"
 }
 

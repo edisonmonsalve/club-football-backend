@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable space-before-function-paren */
 import { db } from '../../config/dbConfig.js'
+import { ErrorResponse } from '../../utils/errorResponse.js'
 
 export class NewModel {
   static async getAll() {
@@ -14,27 +15,21 @@ export class NewModel {
   }
 
   static async create({ title, content, image_url, author_id, category_id, state }) {
-    try {
-      const [result] = await db.query('INSERT INTO news (title, content, image_url, author_id, category_id, state) VALUES (?,?,?,?,?,?)',
-        [title, content, image_url, author_id, category_id, state])
-      return result.insertId
-    } catch (error) {
-      console.error(error)
-      throw new Error('Erorr')
-    }
+    const [result] = await db.query('INSERT INTO news (title, content, image_url, author_id, category_id, state) VALUES (?,?,?,?,?,?)',
+      [title, content, image_url, author_id, category_id, state])
+    return result.insertId
   }
 
   static async update({ id, ...input }) {
-    console.log(id, input)
-    console.log('update')
+    throw new ErrorResponse(undefined, undefined, 'ECONNREFUSED')
   }
 
   static async delete({ id }) {
-    try {
-      const [result] = await db.query('DELETE FROM news WHERE id = ?', [id])
-      return result.affectedRows
-    } catch (error) {
-      throw new Error('Error deleting new')
-    }
+    // try {
+    const [result] = await db.query('DELETE FROM news WHERE id = ?', [id])
+    return result.affectedRows
+    // } catch (error) {
+    //   throw new ErrorResponse('Error deleting new', 500, error.code)
+    // }
   }
 }

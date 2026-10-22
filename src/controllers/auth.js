@@ -2,38 +2,39 @@
 import { AuthService } from '../services/auth.js'
 
 export class AuthController {
-  static async register(req, res) {
+  static async me(req, res) {
+    const { user } = req
+    if (!user) return res.status(401).json({ message: 'Error in user logged in' })
+    res.status(200).json(user)
+  }
+
+  static async register(req, res, next) {
     const { name, email, password } = req.body
     try {
       const userCreated = await AuthService.register({ name, email, password })
-      // console.log('>>>>>', result)
       res.status(201).json({ message: 'success', userCreated })
     } catch (error) {
-      console.log('ERROR CODE ?? ? ? ? ? ?¿', error.code)
-      if (error.message === 'User already exists') {
-        return res.status(400).json({ error: 'User already exist' })
-      }
-      res.status(500).json({ error: 'Error creating user' })
+      next(error)
     }
   }
 
-  static async login(req, res) {
+  static async login(req, res, next) {
     const { email, password } = req.body
     try {
       const userToken = await AuthService.login({ email, password })
-      res.status(200).json({ message: 'Succes Login', userToken })
+      res.cookie('token', userToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', // Solo usar secure en producción
+        sameSite: 'strict', // Evita el envío de cookies en solicitudes de terceros
+        maxAge: 3600000 // 1 hora
+      })
+      res.status(200).json({ message: 'Login Succesful', token: userToken })
     } catch (error) {
-      console.log(error)
-      if (error.message === 'User not found' || error.message === 'Invalid credentials') {
-        res.status(400).json({ error: error.message })
-      } else {
-        res.status(500).json({ error: 'Error login user' })
-      }
+      next(error)
     }
   }
 
-  static async logout(req, res) {
-    console.log(req)
-    res.json({ logout: 'world' })
+  static async logout(_req, res) {
+    res.clearCookie('token').json({ message: 'Logout succesful' })
   }
 }

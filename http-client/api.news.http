@@ -1,24 +1,24 @@
 ### Recuperar todos los noticias
-GET http://localhost:3000/news
+GET http://localhost:3000/api/news
 
 ### Recuperar un noticia por id
-GET http://localhost:3000/news/15
+GET http://localhost:3000/api/news/17
 
 ### Crear un noticia
-POST http://localhost:3000/news
+POST http://localhost:3000/api/news
 Content-Type: application/json
 
 {
-  "title": "COMOOOOOOOOOOOO",
-  "content": "emmails",
-  "image_url": "wow",
+  "title": "titlesvvsswitch",
+  "content": " ",
+  "image_url": "",
   "author_id": 1,
   "category_id": 7,
-  "state": "pending"
+  "state": "pendiente"
 }
 
 ### Actualizar un noticia por id
-PATCH http://localhost:3000/news/8
+PATCH http://localhost:3000/api/news/35
 Content-Type: application/json
 
 {
@@ -26,5 +26,5 @@ Content-Type: application/json
 }
 
 ### Eliminar un noticia por id
-DELETE http://localhost:3000/news/11
+DELETE http://localhost:3000/api/news/11
 

@@ -9,22 +9,20 @@ export class UserModel {
 
   static async getById({ id }) {
     const [user] = await db.query('SELECT * FROM users WHERE id = ?', [id])
-    return user
+    return user[0]
   }
 
   static async getByEmail({ email }) {
-    try {
-      const [user] = await db.query('SELECT * FROM users WHERE email = ?', [email])
-      console.log(user)
-      return user[0]
-    } catch (error) {
-      console.log('.......', error)
-    }
+    const [user] = await db.query(`SELECT u.id, u.role_id, r.title as role, u.name, u.email, u.password 
+        FROM users u
+        JOIN roles r ON r.id = u.role_id 
+        WHERE u.email = ?; `, [email])
+    return user[0]
   }
 
-  static async create({ name, email, passwordHash }) {
+  static async create({ name, email, password }) {
     const [result] = await db.query('INSERT INTO users (name, email, password) VALUES (?,?,?)',
-      [name, email, passwordHash])
+      [name, email, password])
     return result.insertId
   }
 
@@ -44,6 +42,13 @@ export class UserModel {
     values.push(id)
     const query = `UPDATE users SET ${fields} WHERE id = ?`
     await db.query(query, values)
+  }
+
+  static async changePassword({ id, password }) {
+    console.log(id, password)
+    const result = await db.query('UPDATE users SET password = ? WHERE id = ?', [password, id])
+    console.table(result)
+    return result
   }
 
   static async delete({ id }) {

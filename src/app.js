@@ -8,6 +8,7 @@ import { usersRouter } from './routes/users.js'
 import { newsRouter } from './routes/news.js'
 import { commentsRouter } from './routes/comments.js'
 import { authRouter } from './routes/auth.js'
+import { errorHandler } from './middlewares/errorHandler.js'
 
 const app = express()
 app.use(cookieParser())
@@ -15,6 +16,11 @@ app.use(cors())
 app.use(json()) // for parsing application/json for default
 app.use(morgan('dev'))
 app.disable('x-powered-by')
+
+// app.use((req, res, next) => {
+//   console.log(req.cookies)
+//   next()
+// })
 
 app.use('/auth', authRouter)
 app.use('/api/users', usersRouter)
@@ -24,6 +30,9 @@ app.use('/api/comments', commentsRouter)
 app.use((req, res) => {
   res.status(404).send(`<h1>Path: <mark>${req.url}</mark> Not Fount 404</h1>`)
 })
+
+// Middleware de manejo de errores global
+app.use(errorHandler)
 
 const PORT = process.env.PORT ?? 3000
 const HOST_NAME = process.env.PORT ?? 'localhost'
